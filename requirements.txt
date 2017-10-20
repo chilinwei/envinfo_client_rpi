@@ -1,0 +1,4 @@
+picamera==1.13
+requests==2.18.4
+RPi.GPIO==0.6.3
+spidev==3.2 
