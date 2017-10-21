@@ -7,18 +7,18 @@
 
 ## **目錄**
 0. [系統架構說明](#0-系統架構說明)
-1. [RPi 作業系統安裝、設定與套件更新](#1-rpi作業系統安裝設定與套件更新)
-2. [RPi 安裝感測器](#2-RPi-安裝感測器)
-3. [安裝與部署本範例程式](#3-安裝與部署本範例程式)
+1. [RPi 作業系統安裝、設定與套件更新](#1-rpi-作業系統安裝設定與套件更新)
+2. [RPi 自動連入 server 端的 WAP](#2-rpi-自動連入-server-端的-wap)
+3. [RPi 安裝感測器](#3-rpi-安裝感測器)
+4. [安裝與部署本範例程式](#4-安裝與部署本範例程式)
     - [取得範例程式碼](#取得範例程式碼)
     - [建立自動上傳感測器數值的排程](#建立自動上傳感測器數值的排程)
-
 
 ### **0. 系統架構說明**
 本範例使用 Raspberry Pi 3 (RPi) 與 NodeMCU 建構一環境資訊蒐集系統。設計上client以無線網路方式透過master提供的RESTful api將感測器的數值與PiCamera拍攝的照片儲存於其中，使用者可透過瀏覽器查詢。
 ![](/pic/pic1.png)
 
-### **1. RPi作業系統安裝、設定與套件更新**
+### **1. RPi 作業系統安裝、設定與套件更新**
 (1) RPi 系統安裝    
 請參考 [INSTALLING OPERATING SYSTEM IMAGES](https://www.raspberrypi.org/documentation/installation/installing-images/)
 
@@ -30,18 +30,34 @@
 $ sudo apt-get update -y && sudo apt-get upgrade -y
 </pre>
 
-### **2. RPi 安裝感測器**
+### **2. RPi 自動連入 server 端的 WAP**
+(1) 修改 wpa_supplicant.conf
+<pre>
+$ sudo vi /etc/wpa_supplicant/wpa_supplicant.conf
+</pre>
+加入以下內容
+<pre>
+network={
+    ssid="輸入WiFi名字(SSID)"
+    psk="輸入密碼"
+}
+</pre>
+
+### **3. RPi 安裝感測器**
 本範例為使用 RPi 作為 client 將感測器數據上傳到 server，安裝的感測器有以下幾種
+
 類型 | 規格 | 訊號
 --- | --- | ---
 3軸感側器 | ADXL335 | 電壓
 光敏電阻 | CD5592, 5M/M | 電壓
 溫度感測 | LM35DZ | 電壓
 太陽能板 | 0.5W,55x70mm | 電壓
+
 因為使用的感測器輸出的訊號都是類比(電壓)，我們需要一個ADC(Analog-to-Digital Converter)晶片，將電壓轉換為數字訊號，在本範例中我們使用 MCP3008 (10-bit, SPI 8 channels)。
 
 (1) 將 MCP3008 與 RPi 的 GPIO 連接
 ![](/pic/sensors_raspberry_pi_mcp3008pin.gif)
+
 MCP3008 | RPi
 --- | ---
 Pin 16 | Pin 1 (3.3V) / Pin 2 (5V)
@@ -57,7 +73,7 @@ Pin 9 | Pin 6 (GND)
 參考下圖
 ![](/pic/pic2.png)
 
-### **3. 安裝與部署本範例程式**
+### **4. 安裝與部署本範例程式**
 
 #### 取得範例程式碼
 (1) 從 GitHub 取得範例程式碼    
