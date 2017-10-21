@@ -56,6 +56,7 @@ network={
 因為使用的感測器輸出的訊號都是類比(電壓)，我們需要一個ADC(Analog-to-Digital Converter)晶片，將電壓轉換為數字訊號，在本範例中我們使用 MCP3008 (10-bit, SPI 8 channels)。
 
 (1) 將 MCP3008 與 RPi 的 GPIO 連接
+
 ![](/pic/sensors_raspberry_pi_mcp3008pin.gif)
 
 MCP3008 | RPi
